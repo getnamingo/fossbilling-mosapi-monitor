@@ -1,0 +1,69 @@
+{% extends request.ajax ? "layout_blank.html.twig" : "layout_default.html.twig" %}
+
+{% import "macro_functions.html.twig" as mf %}
+
+{% block meta_title %}MoSAPI Monitor Settings{% endblock %}
+
+{% set active_menu = 'system' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{ 'MoSAPI Monitor Settings'|trans }}</h3>
+    </div>
+
+    <div class="card-body">
+        {% set params = admin.extension_config_get({ "ext": "mod_mosapimonitor" }) %}
+
+        <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{{ 'Configuration updated'|trans }}">
+            <input type="hidden" name="CSRFToken" value="{{ CSRFToken }}"/>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label class="form-label">Base URL (with IANA ID)</label>
+                  <input class="form-control" name="base_url" value="{{ cfg.base_url|e }}" placeholder="https://mosapi.icann.org/rr/999">
+                  <div class="form-hint">Example: https://mosapi.icann.org/rr/999</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">Source IP (optional)</label>
+                  <input class="form-control" name="source_ip" value="{{ cfg.source_ip|e }}" placeholder="">
+                  <div class="form-hint">Bind outgoing connections to a specific server IP.</div>
+                </div>
+              </div>
+            </div>
+              
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">RR Username</label>
+                  <input class="form-control" name="username" value="{{ cfg.username|e }}">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label class="form-label">RR Password</label>
+                  <input class="form-control" name="password" value="{{ cfg.password|e }}" type="password">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3">
+                  <label class="form-label">Timeout (s)</label>
+                  <input class="form-control" name="timeout" value="{{ cfg.timeout|e }}">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3">
+                  <label class="form-label">Cache TTL (s)</label>
+                  <input class="form-control" name="cache_ttl" value="{{ cfg.cache_ttl|e }}">
+                </div>
+              </div>
+            </div>
+
+            <input type="submit" value="{{ 'Update'|trans }}" class="btn btn-primary">
+            <input type="hidden" name="ext" value="mod_mosapimonitor" />
+        </form>
+    </div>
+</div>
+{% endblock %}
