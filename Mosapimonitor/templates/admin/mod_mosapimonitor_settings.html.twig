@@ -15,8 +15,7 @@
     <div class="card-body">
         {% set params = admin.extension_config_get({ "ext": "mod_mosapimonitor" }) %}
 
-        <form method="post" action="{{ 'api/admin/extension/config_save'|link }}" class="api-form" data-api-msg="{{ 'Configuration updated'|trans }}">
-            <input type="hidden" name="CSRFToken" value="{{ CSRFToken }}"/>
+        <form method="post" action="{{ 'extension/config_save'|api_url(role='admin') }}" {{ fb_api_form({ message: 'Configuration updated'|trans }) }}>
             <div class="row">
               <div class="col-md-8">
                 <div class="mb-3">
